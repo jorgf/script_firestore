@@ -1,0 +1,20 @@
+{
+    "name": "vagrant/infire",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        },
+        "files":[
+           "app/lib/Lib.php",
+           "app/config/config.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "jorge"
+        }
+    ],
+    "require": {
+        "google/cloud-firestore": "^1.26"
+    }
+}
