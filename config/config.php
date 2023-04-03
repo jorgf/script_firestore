@@ -1,3 +1,6 @@
 <?php
-use app\classes\CommandLine;
+
+use App\Classes\CommandLine;
+
+global $argc, $argv;
 new CommandLine($argc, $argv);
