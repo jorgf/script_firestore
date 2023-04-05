@@ -29,7 +29,8 @@ class File {
   public static function createDir($nameDir){
     $permission = 0777;
     $recursive = true;
-    return mkdir($nameDir, $permission, $recursive);
+    mkdir($nameDir, $permission, $recursive);
+    return $nameDir;
   }
 
   public static function getDirAndFiles($path){
