@@ -11,23 +11,22 @@ class CommandLine {
     'exportFS', 
     'deleteDocument'
   ];
-  public $errorMsg = [
-    'ERROR: Pass action on the first param',
-    'ERROR: Unknow action', 
-    'ERROR: Pass name colletion on the second param or \'all\' for instantiate all collections',
-    'ERROR: Pass name file on the third param (ex.: namefile.json)',
-    'ERROR: Pass name directory on the third param (ex.: bkp_firestore)',
-    'ERROR: Pass name document on the third param (ex.: jorge)'
+    public $error = [
+    'action_null' => 'ERROR: Pass action on the first param',
+    'action_unknow' => 'ERROR: Unknow action', 
+    'collection_name' => 'ERROR: Pass name colletion on the second param or \'all\' for instantiate all collections',
+    'file_name' => 'ERROR: Pass name file on the third param (ex.: namefile.json)',
+    'dir_name' => 'ERROR: Pass name directory on the third param (ex.: bkp_firestore)',
+    'doc_name' => 'ERROR: Pass name document on the third param (ex.: jorge)'
   ];
   public $separator = '---------------------------------------------------------------------------------';
-  
-  // TODO - create a default directory when the user does not define one
+  // TODO - criar um diretorio default, caso o usuario nao informe um
   public function __construct($num=0, $arr=[]) { 
-    if (!isset($arr[1])) Lib::sd($this->errorMsg[0].$this->listActions().PHP_EOL);
-    elseif (!in_array($arr[1], $this->actions)) Lib::sd($this->errorMsg[1].$this->listActions().PHP_EOL);
-    elseif (!isset($arr[2])) Lib::sd($this->errorMsg[2].$this->listRootCollections().PHP_EOL);
-    elseif($arr[1] == 'deleteDocument' && !isset($arr[3])) Lib::sd($this->errorMsg[5].PHP_EOL);
-    elseif (!isset($arr[3])) Lib::sd($this->errorMsg[4].PHP_EOL); //nome do diretorio
+    if (!isset($arr[1])) Lib::sd($this->error['action_null'].$this->listActions().PHP_EOL);
+    elseif (!in_array($arr[1], $this->actions)) Lib::sd($this->error['action_unknow'].$this->listActions().PHP_EOL);
+    elseif (!isset($arr[2])) Lib::sd($this->error['collection_name'].$this->listRootCollections().PHP_EOL);
+    elseif($arr[1] == 'deleteDocument' && !isset($arr[3])) Lib::sd($this->error['doc_name'].PHP_EOL);
+    elseif (!isset($arr[3])) Lib::sd($this->error['dir_name'].PHP_EOL); //nome do diretorio
     else{
       $action = $arr[1];
       $this->$action($arr[2], $arr[3]);
@@ -82,7 +81,7 @@ class CommandLine {
     $collections = $this->instanceFirestore()->listCollection();
     $msgFinal = "\n$this->separator\n$msg\n";
     foreach($collections as $coll){
-      $msgFinal.="- ".$coll->id()." \n";
+      $msgFinal.= "- ".$coll->id()." \n";
     }
     return $msgFinal;
   }
