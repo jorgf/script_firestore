@@ -20,14 +20,14 @@ class CommandLine {
     'doc_name' => 'ERROR: Pass name document on the third param (ex.: jorge)'
   ];
   public $separator = '---------------------------------------------------------------------------------';
-  // TODO - criar um diretorio default, caso o usuario nao informe um
+
   public function __construct($num=0, $arr=[]) { 
     if (!isset($arr[1])) Lib::sd($this->error['action_null'].$this->listActions().PHP_EOL);
     elseif (!in_array($arr[1], $this->actions)) Lib::sd($this->error['action_unknow'].$this->listActions().PHP_EOL);
     elseif (!isset($arr[2])) Lib::sd($this->error['collection_name'].$this->listRootCollections().PHP_EOL);
     elseif($arr[1] == 'deleteDocument' && !isset($arr[3])) Lib::sd($this->error['doc_name'].PHP_EOL);
-    elseif (!isset($arr[3])) Lib::sd($this->error['dir_name'].PHP_EOL); //nome do diretorio
-    else{
+    else {
+      $arr[3] = (!isset($arr[3])) ? File::createDir('backupFS'.date("_dmYHis")) : $arr[3];
       $action = $arr[1];
       $this->$action($arr[2], $arr[3]);
       die;
