@@ -21,20 +21,18 @@ class CommandLine {
   ];
   public $separator = '---------------------------------------------------------------------------------';
   
-  // constructor
-  // TODO - reduzir as estruturas lógicas para uma (elseif ou métodos)
-  // TODO - criar um diretorio default, caso o usuario nao informe um
+  // TODO - create a default directory when the user does not define one
   public function __construct($num=0, $arr=[]) { 
     if (!isset($arr[1])) Lib::sd($this->errorMsg[0].$this->listActions().PHP_EOL);
-    if (!in_array($arr[1], $this->actions)) Lib::sd($this->errorMsg[1].$this->listActions().PHP_EOL);
-    $action = $arr[1];
-    if (!isset($arr[2])) Lib::sd($this->errorMsg[2].$this->listRootCollections().PHP_EOL);
-    if($arr[1] == 'deleteDocument' && !isset($arr[3])){
-      Lib::sd($this->errorMsg[5].PHP_EOL);
+    elseif (!in_array($arr[1], $this->actions)) Lib::sd($this->errorMsg[1].$this->listActions().PHP_EOL);
+    elseif (!isset($arr[2])) Lib::sd($this->errorMsg[2].$this->listRootCollections().PHP_EOL);
+    elseif($arr[1] == 'deleteDocument' && !isset($arr[3])) Lib::sd($this->errorMsg[5].PHP_EOL);
+    elseif (!isset($arr[3])) Lib::sd($this->errorMsg[4].PHP_EOL); //nome do diretorio
+    else{
+      $action = $arr[1];
+      $this->$action($arr[2], $arr[3]);
+      die;
     }
-    if (!isset($arr[3])) Lib::sd($this->errorMsg[4].PHP_EOL); //nome do diretorio
-    $this->$action($arr[2],$arr[3]);
-    die;
   }
   
   // Firestore to local
