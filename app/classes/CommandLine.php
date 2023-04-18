@@ -21,11 +21,11 @@ class CommandLine {
   ];
   public $separator = '---------------------------------------------------------------------------------';
 
-  public function __construct($num=0, $arr=[]) { 
+  public function __construct($num = 0, $arr = []) { 
     if (!isset($arr[1])) Lib::sd($this->error['action_null'].$this->listActions().PHP_EOL);
     elseif (!in_array($arr[1], $this->actions)) Lib::sd($this->error['action_unknow'].$this->listActions().PHP_EOL);
     elseif (!isset($arr[2])) Lib::sd($this->error['collection_name'].$this->listRootCollections().PHP_EOL);
-    elseif($arr[1] == 'deleteDocument' && !isset($arr[3])) Lib::sd($this->error['doc_name'].PHP_EOL);
+    elseif ($arr[1] == 'deleteDocument' && !isset($arr[3])) Lib::sd($this->error['doc_name'].PHP_EOL);
     else {
       $arr[3] = (!isset($arr[3])) ? File::createDir('backupFS'.date("_dmYHis")) : $arr[3];
       $action = $arr[1];
@@ -49,7 +49,7 @@ class CommandLine {
   }
   
   // local to firestore
-  public function importFS($nameColl, $nameDir){
+  public function importFS($nameColl, $nameDir) {
     $this->bannerImport();
     $firestore = $this->instanceFirestore();
     if($nameColl == 'all') {
@@ -63,25 +63,25 @@ class CommandLine {
   }
 
   // delete doc
-  public function deleteDocument($nameColl, $nameDoc){
+  public function deleteDocument($nameColl, $nameDoc) {
     $firestore = $this->instanceFirestore();
     echo $firestore->delete($nameColl, $nameDoc);
   }
 
-  private function instanceFirestore(){
+  private function instanceFirestore() {
     return new Firestore();
   }
 
-  public function listActions($arr=null, $msg='ACTIONS LIST:') {
+  public function listActions($arr = null, $msg = 'ACTIONS LIST:') {
     if (!$arr) $arr = $this->actions;
     return "\n$this->separator\n$msg\n  - " . implode("\n  - ", $arr);
   }
 
-  public function listRootCollections($arr=null, $msg='COLLECTIONS LIST:'){
+  public function listRootCollections($arr = null, $msg = 'COLLECTIONS LIST:') {
     $collections = $this->instanceFirestore()->listCollection();
     $msgFinal = "\n$this->separator\n$msg\n";
-    foreach($collections as $coll){
-      $msgFinal.= "- ".$coll->id()." \n";
+    foreach($collections as $coll) {
+      $msgFinal.= "- " . $coll->id() . " \n";
     }
     return $msgFinal;
   }

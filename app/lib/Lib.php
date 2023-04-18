@@ -14,8 +14,8 @@ class Lib {
 
   // string formatting
   public static function trimString($str, $inicio, $fim){
-    $str = substr($str,strlen($inicio));
-    $str_final = substr($str,0,(strlen($str)-strlen($fim)));
-    return $str_final;
+    $str = substr($str, strlen($inicio));
+    $strFinal = substr($str, 0, (strlen($str)-strlen($fim)));
+    return $strFinal;
   }
 }
